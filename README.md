@@ -1,11 +1,11 @@
-# trit-mc
+# trit-mc-datapacks
 
-trit-agent 的 **Minecraft 侧**：数据包、起源包、构建与诊断脚本。
+trit-mc 的 **Minecraft 侧**：数据包、起源包、构建与诊断脚本。
 
-Rust 状态机在另一个仓库 → **[bfxh/trit-agent](https://github.com/bfxh/trit-agent)**
+Rust 状态机在另一个仓库 → **[bfxh/trit-mc](https://github.com/bfxh/trit-mc)**
 
 ```
-Minecraft 侧（本仓库）              Rust 侧（trit-agent）
+Minecraft 侧（本仓库）              Rust 侧（trit-mc）
 datapacks/  ← 数据包源码      ←→   src/perceive/  ← 传感器解析器
 scripts/    ← 打包/诊断                ↑
                                     协议字段名单（唯一事实来源）
