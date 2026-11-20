@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: python scripts + json
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: compile scripts
+        run: python -m compileall -q scripts
+      - name: validate json
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad = []
+          for p in pathlib.Path(".").rglob("*.json"):
+              if ".git" in p.parts or "dist" in p.parts:
+                  continue
+              try:
+                  json.loads(p.read_text("utf-8-sig"))
+              except Exception as e:
+                  bad.append((str(p), str(e)))
+          for p, e in bad:
+              print(f"{p}: {e}")
+          print(f"checked json, bad={len(bad)}")
+          sys.exit(1 if bad else 0)
+          PY
