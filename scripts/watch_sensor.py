@@ -96,7 +96,7 @@ def main() -> int:
                 print()
                 print("下一步：")
                 print("  1. 关掉这个窗口（它只是监视器）")
-                print("  2. 双击 trit-agent 目录下的 启动AI.bat")
+                print("  2. 双击 trit-mc 目录下的 启动AI.bat")
                 print("  3. 切回游戏窗口，按 F8 让 AI 接管")
                 print("  4. AI 会自动开始巡逻（mode=patrol）")
                 return 0

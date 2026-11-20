@@ -22,7 +22,7 @@ PROFILE = Path(os.environ.get("TRIT_PROFILE", r"E:\MC\MC\profiles\烦人的村�
 DAEMON_LOG = Path(
     os.environ.get(
         "TRIT_DAEMON_LOG",
-        os.path.join(os.environ.get("LOCALAPPDATA", "."), "trit-agent", "trit-agent-daemon.log"),
+        os.path.join(os.environ.get("LOCALAPPDATA", "."), "trit-mc", "trit-mc-daemon.log"),
     )
 )
 
@@ -168,7 +168,7 @@ def main() -> int:
         print(
             "⚠ 崩溃前 5 分钟内 AI 接管过 —— 崩溃时它可能在注入按键。\n"
             "  下一步：看 latest.log 里 <TRIT> 的输出条数确认接管是否真正跑起来了；\n"
-            "  再查 AI 在崩溃瞬间按了什么（trit-agent 的 run_log 有决策记录）。"
+            "  再查 AI 在崩溃瞬间按了什么（trit-mc 的 run_log 有决策记录）。"
         )
     else:
         print(

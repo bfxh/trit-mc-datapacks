@@ -54,7 +54,7 @@ Forge 只加载 `mods/` 下以 `.jar` 结尾的文件。把目标 jar 改名成
     python scripts/toggle_rrls.py disable    # 禁用（防崩溃）
     python scripts/toggle_rrls.py enable     # 恢复
 
-**建议先备份**：脚本会把原 jar 复制一份到 `mods/.trit-agent-backup/`，
+**建议先备份**：脚本会把原 jar 复制一份到 `mods/.trit-mc-backup/`，
 再改名。不是删除，所以随时能还原。
 """
 
@@ -66,7 +66,7 @@ import zipfile
 # 整合包实例目录（MC 启动器 profile）
 PROFILE = r"E:\MC\MC\profiles\烦人的村民"
 MODS = os.path.join(PROFILE, "mods")
-BACKUP = os.path.join(MODS, ".trit-agent-backup")
+BACKUP = os.path.join(MODS, ".trit-mc-backup")
 
 # 目标 jar —— 里面**只有** rrls（com.github.dimadencep.*），
 # 禁用它不会连带别的功能

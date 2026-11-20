@@ -412,7 +412,7 @@ SLOW_TICKS = 20
 def main() -> None:
     write_json("pack.mcmeta", {
         "pack": {"pack_format": 9,
-                 "description": "trit-agent 传感器：快慢双通道状态流，供外部读取"}
+                 "description": "trit-mc 传感器：快慢双通道状态流，供外部读取"}
     })
 
     # 函数标签必须带 "replace": false —— 1.18 的标签默认行为是**替换**，

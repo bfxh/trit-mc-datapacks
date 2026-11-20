@@ -205,21 +205,21 @@ def _rust_known_fields() -> list[str]:
 
     ## 为什么改成调命令
 
-    这个仓库（trit-mc）和 Rust 侧（trit-agent）已经拆成两个独立仓库了。
+    这个仓库（trit-mc-datapacks）和 Rust 侧（trit-mc）已经拆成两个独立仓库了。
     以前这里是直接读 `ROOT/src/perceive/mod.rs`，拆开之后**这个路径根本不存在**
     —— 校验器会静默地返回空列表，然后检查全部失效（形同虚设）。
 
     所以改成调 Rust 侧导出的命令：
 
-        trit-agent protocol --json
+        trit-mc protocol --json
 
     字段名单由 Rust 代码自己维护（`perceive::PROTOCOL_FIELDS`），
     Rust 那边还有一个测试盯着「名单和解析器分支逐字一致」。
 
-    ## 找不到 trit-agent 时的降级
+    ## 找不到 trit-mc 时的降级
 
-    如果本机没装 trit-agent（比如只想单独改数据包），退回报**读源码**的老办法 ——
-    前提是 Rust 仓库在旁边（`../trit-agent`）。
+    如果本机没装 trit-mc（比如只想单独改数据包），退回报**读源码**的老办法 ——
+    前提是 Rust 仓库在旁边（`../trit-mc`）。
     两条路都拿不到时返回空列表，调用方必须**显式报告「跳过」**，
     不能当成「检查通过」。
     """
@@ -261,7 +261,7 @@ def _rust_known_fields() -> list[str]:
 
 
 def _find_trit_agent_exe() -> pathlib.Path | None:
-    """找 trit-agent 可执行文件。
+    """找 trit-mc 可执行文件。
 
     顺序：环境变量 → 本仓库的 target/release → PATH 里的同名命令。
     `None` 表示找不到（调用方要显式说「跳过」，不能当通过）。
@@ -272,14 +272,14 @@ def _find_trit_agent_exe() -> pathlib.Path | None:
         if p.is_file():
             return p
 
-    local = ROOT / "target" / "release" / "trit-agent.exe"
+    local = ROOT / "target" / "release" / "trit-mc.exe"
     if local.is_file():
         return local
 
-    # 装了的话通常在 %LOCALAPPDATA%\trit-agent\ 里
+    # 装了的话通常在 %LOCALAPPDATA%\trit-mc\ 里
     localapp = os.environ.get("LOCALAPPDATA")
     if localapp:
-        p = pathlib.Path(localapp) / "trit-agent" / "trit-agent.exe"
+        p = pathlib.Path(localapp) / "trit-mc" / "trit-mc.exe"
         if p.is_file():
             return p
 
@@ -289,12 +289,12 @@ def _find_trit_agent_exe() -> pathlib.Path | None:
 def _rust_source_candidates() -> list[pathlib.Path]:
     """Rust 仓库可能在哪。
 
-    拆仓库后两个目录常常是**并排放**的（`../trit-agent`），
+    拆仓库后两个目录常常是**并排放**的（`../trit-mc`），
     也可能这个仓库自己就在 Rust 仓库里（开发期没拆开的情况）。
     """
     out = [ROOT]
     parent = ROOT.parent
-    out.append(parent / "trit-agent")
+    out.append(parent / "trit-mc")
     out.append(parent / "trit")
     return out
 
@@ -370,8 +370,8 @@ def selftest_sensor_fields() -> int:
     known = set(_rust_known_fields())
     if not known:
         print("  [!!] 拿不到 Rust 认得的字段名单，检查器形同虚设")
-        print("       找 trit-agent.exe（装好后 `trit-agent protocol --json` 应有输出），")
-        print("       或把 Rust 仓库放在本仓库旁边（../trit-agent）")
+        print("       找 trit-mc.exe（装好后 `trit-mc protocol --json` 应有输出），")
+        print("       或把 Rust 仓库放在本仓库旁边（../trit-mc）")
         return 1
 
     cases = [
